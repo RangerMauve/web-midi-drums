@@ -1,0 +1,19 @@
+<h2>Drums</h2>
+<article class="blocks">
+	{{#blocks}}
+		<section class="block">
+			<h3>
+				<span>
+					{{note}}
+				</span>
+				<select name="blocks-{{note}}">
+					{{#samples}}
+						<option value="{{.}}">{{.}}</option>
+					{{/samples}}
+				</select>
+			</h3>
+			<audio id="{{note}}" src="audio/{{audio}}"></audio>
+			<button>{{audio}}</button>
+		</section>
+	{{/blocks}}
+</article>
