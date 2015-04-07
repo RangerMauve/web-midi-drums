@@ -20,12 +20,16 @@ var main_element = $("main");
 
 var instrument_map = {};
 
+var main_state = mergeStream(initial_data());
+
+main_state.pipe(stdout("Main State:"));
+
 domBindingStream("main")
 	.pipe(mergeStream({}))
 	.pipe(map(process_updates))
-	.pipe(mergeStream(initial_data()))
+	.pipe(main_state)
 	.pipe(map(render_main))
-	.pipe(patcherStream(main_element, render_main({})));
+	.pipe(patcherStream(main_element, render_main(initial_data())));
 
 var midiInput = repeatStream();
 
@@ -34,10 +38,25 @@ midiInput
 	.pipe(map(play_tag));
 
 domBindingStream("header")
-	.pipe(add_instrument);
+	.pipe(map(add_instrument));
+
+midiDevices.inputs()
+	.then(render_header)
+	.then(set_header);
 
 function render_main(data) {
 	return mustache.render(templates.main, data);
+}
+
+function render_header(inputs) {
+	console.log("Inputs", inputs);
+	return mustache.render(templates.header, {
+		inputs: inputs
+	});
+}
+
+function set_header(html) {
+	$("header").innerHTML = html;
 }
 
 function process_updates(data) {
@@ -64,9 +83,37 @@ function play_tag(data) {
 
 function initial_data() {
 	return {
-		blocks: [],
-		samples: []
+		blocks: gen_blocks(),
+		samples: gen_samples()
 	};
+}
+
+function gen_blocks() {
+	var start = 36;
+	var end = 51 + 1;
+	var i = end - start;
+	var blocks = [];
+	while (i--) {
+		blocks.push({
+			note: start + i,
+			audio: "clap-808.wav"
+		});
+	}
+	return blocks;
+}
+
+function gen_samples() {
+	return [
+		"clap-808.wav",
+		"cowbell-808.wav",
+		"crash-808.wav",
+		"hihat-808.wav",
+		"kick-808.wav",
+		"openhat-808.wav",
+		"perc-808.wav",
+		"snare-808.wav",
+		"tom-808.wav"
+	];
 }
 
 function $(query) {

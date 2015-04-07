@@ -1,0 +1,12 @@
+<section class="input-selection">
+	<div>
+		Select an input
+	</div>
+	<select data-binding="name">
+		{{#inputs}}
+			<option value= {{.}}>
+				{{.}}
+			</option>
+		{{/inputs}}
+	</select>
+</section>

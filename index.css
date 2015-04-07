@@ -1,0 +1,46 @@
+* {
+	box-sizing: border-box;
+}
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+body {
+	display: flex;
+	flex-direction: column;
+}
+main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.blocks {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1;
+}
+.block {
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding: 4px;
+}
+.block-button {
+	flex: 1;
+}
+.block-header {
+	margin: 0px;
+	display: flex;
+	padding: 2px;
+}
+.block-sample {
+	flex: 1;
+}
+.block-note {
+	width: 2em;
+}
+.input-selection {
+	display: flex;
+}
